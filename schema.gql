@@ -153,7 +153,7 @@ type Post {
 }
 
 input PostCreateInput {
-  author: UserCreateNestedOneWithoutPostsInput
+  author: UserCreateNestedOneWithoutPostsInput!
   content: String
   createdAt: DateTime
   published: Boolean
@@ -371,7 +371,7 @@ input UserCreateInput {
 }
 
 input UserCreateNestedOneWithoutPostsInput {
-  connect: UserWhereUniqueInput
+  connect: UserWhereUniqueInput!
   connectOrCreate: UserCreateOrConnectWithoutPostsInput
   create: UserCreateWithoutPostsInput
 }

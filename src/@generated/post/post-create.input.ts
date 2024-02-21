@@ -24,6 +24,6 @@ export class PostCreateInput {
     @Field(() => Int, {nullable:true})
     viewCount?: number;
 
-    @Field(() => UserCreateNestedOneWithoutPostsInput, {nullable:true})
+    @Field(() => UserCreateNestedOneWithoutPostsInput, {nullable:false})
     author?: UserCreateNestedOneWithoutPostsInput;
 }

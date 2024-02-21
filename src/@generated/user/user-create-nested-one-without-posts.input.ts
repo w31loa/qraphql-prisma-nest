@@ -17,7 +17,7 @@ export class UserCreateNestedOneWithoutPostsInput {
     @Type(() => UserCreateOrConnectWithoutPostsInput)
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput;
 
-    @Field(() => UserWhereUniqueInput, {nullable:true})
+    @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email'>;
 }
