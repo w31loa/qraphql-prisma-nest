@@ -62,8 +62,11 @@ input IntNullableFilter {
 }
 
 type Mutation {
+  createPost(createPostInput: PostCreateInput!): Post!
   createUser(userCreateInput: UserCreateInput!): User!
+  removePost(id: Int!): Post!
   removeUser(id: Int!): User!
+  updatePost(id: Float!, updatePostInput: PostUpdateInput!): Post!
   updateUser(id: Float!, updateUserInput: UserUpdateInput!): User!
 }
 
@@ -149,6 +152,16 @@ type Post {
   viewCount: Int!
 }
 
+input PostCreateInput {
+  author: UserCreateNestedOneWithoutPostsInput
+  content: String
+  createdAt: DateTime
+  published: Boolean
+  title: String!
+  updatedAt: DateTime
+  viewCount: Int
+}
+
 input PostCreateManyAuthorInput {
   content: String
   createdAt: DateTime
@@ -203,6 +216,16 @@ input PostScalarWhereInput {
   title: StringFilter
   updatedAt: DateTimeFilter
   viewCount: IntFilter
+}
+
+input PostUpdateInput {
+  author: UserUpdateOneWithoutPostsNestedInput
+  content: NullableStringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  published: BoolFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+  viewCount: IntFieldUpdateOperationsInput
 }
 
 input PostUpdateManyMutationInput {
@@ -284,6 +307,8 @@ input PostWhereUniqueInput {
 }
 
 type Query {
+  post(id: Int!): Post!
+  posts: [Post!]!
   user(id: Int!): User!
   users: [User!]!
 }
@@ -345,6 +370,22 @@ input UserCreateInput {
   posts: PostCreateNestedManyWithoutAuthorInput
 }
 
+input UserCreateNestedOneWithoutPostsInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutPostsInput
+  create: UserCreateWithoutPostsInput
+}
+
+input UserCreateOrConnectWithoutPostsInput {
+  create: UserCreateWithoutPostsInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateWithoutPostsInput {
+  email: String!
+  name: String
+}
+
 input UserNullableRelationFilter {
   is: UserWhereInput
   isNot: UserWhereInput
@@ -356,12 +397,48 @@ input UserUpdateInput {
   posts: PostUpdateManyWithoutAuthorNestedInput
 }
 
+input UserUpdateOneWithoutPostsNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutPostsInput
+  create: UserCreateWithoutPostsInput
+  delete: UserWhereInput
+  disconnect: UserWhereInput
+  update: UserUpdateToOneWithWhereWithoutPostsInput
+  upsert: UserUpsertWithoutPostsInput
+}
+
+input UserUpdateToOneWithWhereWithoutPostsInput {
+  data: UserUpdateWithoutPostsInput!
+  where: UserWhereInput
+}
+
+input UserUpdateWithoutPostsInput {
+  email: StringFieldUpdateOperationsInput
+  name: NullableStringFieldUpdateOperationsInput
+}
+
+input UserUpsertWithoutPostsInput {
+  create: UserCreateWithoutPostsInput!
+  update: UserUpdateWithoutPostsInput!
+  where: UserWhereInput
+}
+
 input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   email: StringFilter
   id: IntFilter
+  name: StringNullableFilter
+  posts: PostListRelationFilter
+}
+
+input UserWhereUniqueInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  email: String
+  id: Int
   name: StringNullableFilter
   posts: PostListRelationFilter
 }
