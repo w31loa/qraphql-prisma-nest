@@ -35,10 +35,6 @@ export class PostsService {
   }
 
   async remove(id: number) {
-    const post = await this.prisma.post.findUnique({where: {id} })
-    if(!post){
-      throw new BadRequestException(`Post with id = ${id} does not exist!`)
-    }
 
     return this.prisma.post.delete({where: {id} })
   }
